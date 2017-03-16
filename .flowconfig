@@ -1,0 +1,11 @@
+[ignore]
+
+[include]
+index.js
+lib/*.js
+
+[libs]
+
+[options]
+; Flow does not yet support decorators. This suppresses warnings about that.
+esproposal.decorators=ignore
