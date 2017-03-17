@@ -501,7 +501,7 @@ export default {
    * @param url WebSocket URL to connect to
    * @param wsOptions Options to pass to ReconnectingWebsocket
    */
-  connect(url: string, wsOptions: ?Object): ChannelsApi {
+  connect(url: string, wsOptions: Object={}): ChannelsApi {
     const client = this.createClient(url, wsOptions);
     client.initialize();
     return client;
@@ -513,7 +513,7 @@ export default {
    * @param url WebSocket URL to connect to
    * @param wsOptions Options to pass to ReconnectingWebsocket
    */
-  createClient(url: string, wsOptions: ?Object): ChannelsApi {
+  createClient(url: string, wsOptions: Object={}): ChannelsApi {
     const dispatcher = new FifoDispatcher();
     const transport = new WebsocketTransport(url, wsOptions);
     const queue = new FifoQueue();
