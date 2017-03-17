@@ -38,6 +38,7 @@
   "files": [
     "dist/channels-api.js",
     "dist/channels-api.js.flow",
+    "dist/interface.js.flow",
     "dist/lib/UUID.js"
   ]
 }
