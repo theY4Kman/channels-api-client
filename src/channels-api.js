@@ -18,7 +18,7 @@ import type {
   SubscriptionHandler,
   SubscriptionAction,
   ITransport,
-} from './channels-api';
+} from './interface';
 
 
 const log = logging.getLogger('channels-api');
