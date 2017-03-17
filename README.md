@@ -14,7 +14,9 @@ This package aims to provide a **simple**, **reliable**, and **generic** interfa
 
 ## Install
 
-TODO
+```bash
+npm install --save @usslc/channels-api
+```
 
 
 ## Usage
