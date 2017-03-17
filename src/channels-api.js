@@ -491,7 +491,6 @@ class ChannelsApi implements IStreamingAPI {
 }
 
 
-
 module.exports = {
   ChannelsApi,
   SubscriptionPromise,
@@ -525,4 +524,4 @@ module.exports = {
     const serializer = new JSONSerializer();
     return new ChannelsApi(dispatcher, transport, queue, serializer);
   },
-}
+};
