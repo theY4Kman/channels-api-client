@@ -1,6 +1,6 @@
 {
   "name": "@usslc/channels-api",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Modular client to consume channels-api powered websocket services",
   "main": "./dist/channels-api.js",
   "repository": {
