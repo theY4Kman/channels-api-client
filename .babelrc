@@ -1,5 +1,5 @@
 {
-  "presets": ["modern-browsers", "es2015"],
+  "presets": ["modern-browsers"],
   "plugins": [
     "transform-flow-strip-types",
     "transform-decorators-legacy",
