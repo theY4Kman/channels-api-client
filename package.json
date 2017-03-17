@@ -1,8 +1,8 @@
 {
-  "name": "channels-api-client",
+  "name": "@usslc/channels-api",
   "version": "0.0.1",
   "description": "Modular client to consume channels-api powered websocket services",
-  "main": "index.js",
+  "main": "./dist/channels-api.js",
   "repository": {
     "url": "https://github.com/usstudentloancenter/channels-api-client",
     "type": "git"
@@ -16,8 +16,8 @@
     "reconnecting-websocket": "^3.0.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
-    "babel-loader": "^6.4.1",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.0",
@@ -27,11 +27,16 @@
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "sinon": "^2.0.0",
-    "sinon-chai": "^2.8.0",
-    "webpack": "^2.2.1"
+    "sinon-chai": "^2.8.0"
   },
   "scripts": {
-    "build": "webpack",
-    "test": "mocha './lib/**/*.test.js'"
-  }
+    "prepublish": "npm run build",
+    "build": "babel src --out-dir dist && cp src/*.flow dist/",
+    "test": "mocha './src/**/*.test.js'"
+  },
+  "files": [
+    "dist/channels-api.js",
+    "dist/channels-api.js.flow",
+    "dist/lib/UUID.js"
+  ]
 }

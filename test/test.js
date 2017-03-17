@@ -1,4 +1,4 @@
-import {FifoDispatcher, ChannelsApi} from './channels-api';
+import {FifoDispatcher, ChannelsApi} from '../src/channels-api';
 
 
 describe('FifoDispatcher', function () {

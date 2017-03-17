@@ -1,8 +1,7 @@
 [ignore]
 
 [include]
-index.js
-lib/*.js
+src/*.js
 
 [libs]
 

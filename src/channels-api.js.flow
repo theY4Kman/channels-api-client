@@ -1,7 +1,4 @@
 // @flow
-import type Promise from './typing/promise-finally';
-
-
 export type MessageEvent = {data: string};
 
 export type DispatchListener = (response: Object) => any;
