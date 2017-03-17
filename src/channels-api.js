@@ -27,7 +27,6 @@ const log = logging.getLogger('channels-api');
 /**
  * Invokes listeners on a first-registered, first-called basis
  */
-export
 class FifoDispatcher implements IDispatcher {
   static _listenerCounter: number = 0;
 
@@ -80,7 +79,6 @@ class FifoDispatcher implements IDispatcher {
 /**
  * Transport backed by a reconnecting websocket
  */
-export
 class WebsocketTransport extends EventEmitter implements ITransport {
   url: string;
   options: Object;
@@ -154,7 +152,6 @@ class WebsocketTransport extends EventEmitter implements ITransport {
 }
 
 
-export
 class BaseSendQueue implements ISendQueue {
   sendNow: (bytes: string) => number = (bytes) => -1;
   canSend: () => boolean = () => false;
@@ -187,7 +184,6 @@ class BaseSendQueue implements ISendQueue {
 }
 
 
-export
 class FifoQueue extends BaseSendQueue implements ISendQueue {
   queue: Array<string>;
 
@@ -244,7 +240,6 @@ class JSONSerializer implements ISerializer {
  *
  * This is returned from ChannelsApi.subscribe.
  */
-export
 class SubscriptionPromise<T> extends Promise<T> {
   _unsubscribe: () => boolean;
 
@@ -270,7 +265,6 @@ type _SubscriptionDescriptor = {
 };
 
 
-export
 class ChannelsApi implements IStreamingAPI {
   dispatcher: IDispatcher;
   transport: ITransport;
@@ -498,7 +492,14 @@ class ChannelsApi implements IStreamingAPI {
 
 
 
-export default {
+module.exports = {
+  ChannelsApi,
+  SubscriptionPromise,
+  FifoQueue,
+  BaseSendQueue,
+  WebsocketTransport,
+  FifoDispatcher,
+
   /**
    * Configure a ChannelsApi client and begin connection
    *
