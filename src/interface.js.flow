@@ -168,6 +168,17 @@ interface IStreamingAPI {
   initialize(): void;
 
   /**
+   * Retrieve list of objects from stream
+   *
+   * @param stream Name of object's type stream
+   * @param page Page of results to retrieve (begins at 1)
+   * @return Promise resolves/rejects when response to list request received.
+   *         On success, the promise will be resolved with list of objects.
+   *         On failure, the promise will be rejected with the entire API response.
+   */
+  list(stream: string, page: number): Promise<Object>;
+
+  /**
    * Create a new object
    *
    * @param stream Name of object's type stream

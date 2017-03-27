@@ -303,6 +303,13 @@ class ChannelsApi implements IStreamingAPI {
     this.transport.on('reconnect', this._handleTransportReconnect);
   }
 
+  list(stream: string, page: number=1): Promise<Object> {
+    return this.request(stream, {
+      action: 'list',
+      data: {page},
+    });
+  }
+
   create(stream: string, props: Object): Promise<Object> {
     return this.request(stream, {
       action: 'create',
