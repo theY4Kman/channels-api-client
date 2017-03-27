@@ -220,7 +220,7 @@ class FifoQueue extends BaseSendQueue implements ISendQueue {
 
       while (this.queue.length) {
         const object = this.queue.shift();
-        this.sendNow(object); // XXX: should this requeue the message if the transport is unavailable?
+        this.sendNow(object);
         numProcessed++;
       }
     }
