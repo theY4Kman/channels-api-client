@@ -184,8 +184,8 @@ interface IStreamingAPI {
    * @param stream Name of object's type stream
    * @param props Attributes to create on object
    * @return Promise resolves/rejects when response to creation request received.
-   *         On success, the promise should be resolved with the created object.
-   *         On failure, the promise should be rejected with the entire API response.
+   *         On success, the promise will be resolved with the created object.
+   *         On failure, the promise will be rejected with the entire API response.
    */
   create(stream: string, props: Object): Promise<Object>;
 
@@ -195,8 +195,8 @@ interface IStreamingAPI {
    * @param stream Name of object's type stream
    * @param pk ID of object to retrieve
    * @return Promise resolves/rejects when response to retrieval request received.
-   *         On success, the promise should be resolved with the retrieved object.
-   *         On failure, the promise should be rejected with the entire API response.
+   *         On success, the promise will be resolved with the retrieved object.
+   *         On failure, the promise will be rejected with the entire API response.
    */
   retrieve(stream: string, pk: number): Promise<Object>;
 
@@ -207,8 +207,8 @@ interface IStreamingAPI {
    * @param pk ID of object to update
    * @param props Attributes to patch on object
    * @return Promise resolves/rejects when response to update request received.
-   *         On success, the promise should be resolved with the updated object.
-   *         On failure, the promise should be rejected with the entire API response.
+   *         On success, the promise will be resolved with the updated object.
+   *         On failure, the promise will be rejected with the entire API response.
    */
   update(stream: string, pk: number, props: Object): Promise<Object>;
 
@@ -218,8 +218,8 @@ interface IStreamingAPI {
    * @param stream Name of object's type stream
    * @param pk ID of object to delete
    * @return Promise resolves/rejects when response to deletion request received.
-   *         On success, the promise should be resolved with null, or an empty object.
-   *         On failure, the promise should be rejected with the entire API response.
+   *         On success, the promise will be resolved with null, or an empty object.
+   *         On failure, the promise will be rejected with the entire API response.
    */
   delete(stream: string, pk: number): Promise<?Object>;
 
@@ -232,8 +232,8 @@ interface IStreamingAPI {
    *           subscription will include *all* DB objects of the stream.
    * @param callback Function to call with payload on new events
    * @return Promise resolves/rejects when response to subscription request received.
-   *         On success, the promise should be resolved with null, or an empty object.
-   *         On failure, the promise should be rejected with the entire API response.
+   *         On success, the promise will be resolved with null, or an empty object.
+   *         On failure, the promise will be rejected with the entire API response.
    *         This Promise has an additional method, cancel(), which can be called
    *         to cancel the subscription.
    */
@@ -250,6 +250,9 @@ interface IStreamingAPI {
    * @param payload Data to send as payload
    * @param requestId An optional custom requestId may be passed to the server.
    *                  If not specified, one will be generated.
+   * @return Promise resolves/rejects when response received.
+   *         On success, the promise will be resolved with response.data.
+   *         On failure, the promise will be rejected with the entire API response.
    */
   request(stream: string, payload: Object, requestId?: string): Promise<Object>;
 }
