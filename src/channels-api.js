@@ -303,10 +303,10 @@ class ChannelsApi implements IStreamingAPI {
     this.transport.on('reconnect', this._handleTransportReconnect);
   }
 
-  list(stream: string, page: number=1): Promise<Object> {
+  list(stream: string, data: ?Object={}): Promise<Object> {
     return this.request(stream, {
       action: 'list',
-      data: {page},
+      data,
     });
   }
 
@@ -317,10 +317,11 @@ class ChannelsApi implements IStreamingAPI {
     });
   }
 
-  retrieve(stream: string, pk: number): Promise<Object> {
+  retrieve(stream: string, pk: number, data: ?Object={}): Promise<Object> {
     return this.request(stream, {
       action: 'retrieve',
       pk,
+      data,
     });
   }
 
@@ -332,10 +333,11 @@ class ChannelsApi implements IStreamingAPI {
     });
   }
 
-  delete(stream: string, pk: number): Promise<Object> {
+  delete(stream: string, pk: number, data: ?Object={}): Promise<Object> {
     return this.request(stream, {
       action: 'delete',
       pk,
+      data,
     });
   }
 

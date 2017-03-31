@@ -171,12 +171,12 @@ interface IStreamingAPI {
    * Retrieve list of objects from stream
    *
    * @param stream Name of object's type stream
-   * @param page Page of results to retrieve (begins at 1)
+   * @param data Extra data to send to API
    * @return Promise resolves/rejects when response to list request received.
    *         On success, the promise will be resolved with list of objects.
    *         On failure, the promise will be rejected with the entire API response.
    */
-  list(stream: string, page: number): Promise<Object>;
+  list(stream: string, data: ?Object): Promise<Object>;
 
   /**
    * Create a new object
@@ -194,11 +194,12 @@ interface IStreamingAPI {
    *
    * @param stream Name of object's type stream
    * @param pk ID of object to retrieve
+   * @param data Extra data to send to API
    * @return Promise resolves/rejects when response to retrieval request received.
    *         On success, the promise will be resolved with the retrieved object.
    *         On failure, the promise will be rejected with the entire API response.
    */
-  retrieve(stream: string, pk: number): Promise<Object>;
+  retrieve(stream: string, pk: number, data: ?Object): Promise<Object>;
 
   /**
    * Update an existing object
@@ -217,11 +218,12 @@ interface IStreamingAPI {
    *
    * @param stream Name of object's type stream
    * @param pk ID of object to delete
+   * @param data Extra data to send to API
    * @return Promise resolves/rejects when response to deletion request received.
    *         On success, the promise will be resolved with null, or an empty object.
    *         On failure, the promise will be rejected with the entire API response.
    */
-  delete(stream: string, pk: number): Promise<?Object>;
+  delete(stream: string, pk: number, data: ?Object): Promise<?Object>;
 
   /**
    * Subscribe to updates
