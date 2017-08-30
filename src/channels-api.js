@@ -392,7 +392,7 @@ class ChannelsApi implements IStreamingAPI {
 
       this.dispatcher.once(selector, data => {
         const {payload: response} = data;
-        const {responseStatus} = response;
+        const responseStatus = response.response_status;
 
         // 2xx is success
         if (Math.floor(responseStatus / 100) === 2) {
@@ -402,7 +402,7 @@ class ChannelsApi implements IStreamingAPI {
         }
       });
 
-      const message = this._buildMultiplexedMessage(stream, Object.assign({}, payload, {requestId}));
+      const message = this._buildMultiplexedMessage(stream, Object.assign({}, payload, {request_id: requestId}));
       this.send(message);
     });
   }
@@ -460,7 +460,7 @@ class ChannelsApi implements IStreamingAPI {
   _buildRequestResponseSelector(stream: string, requestId: string) {
     return {
       stream,
-      payload: {requestId},
+      payload: {request_id: requestId},
     };
   }
 
