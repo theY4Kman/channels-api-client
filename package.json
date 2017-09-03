@@ -33,7 +33,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "babel src --out-dir dist && flow-copy-source src dist",
-    "test": "mocha 'test/test.js'"
+    "test": "mocha test/test.js"
   },
   "files": [
     "dist/channels-api.js",

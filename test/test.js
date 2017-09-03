@@ -165,14 +165,14 @@ describe('ChannelsApi', function() {
       expect(transport.send).to.have.been.calledOnce;
       const msg = transport.send.getCall(0).args[0];
       const stream = msg.stream;
-      const requestId = msg.payload.requestId;
+      const requestId = msg.payload.request_id;
 
       transport.emit('message', {
         data: {
           stream,
           payload: {
-            requestId,
-            responseStatus: 200,
+            request_id: requestId,
+            response_status: 200,
             data: {response: 'unique'}
           }
         }
