@@ -9,15 +9,16 @@ import logging from 'loglevel';
 import UUID from './lib/UUID';
 
 import type {
-  IDispatcher,
+  ChannelsApiOptions,
   DispatchListener,
-  MessageEvent,
+  IDispatcher,
   ISendQueue,
   ISerializer,
   IStreamingAPI,
-  SubscriptionHandler,
-  SubscriptionAction,
   ITransport,
+  MessageEvent,
+  SubscriptionAction,
+  SubscriptionHandler,
 } from './interface';
 
 
@@ -282,15 +283,19 @@ class ChannelsApi implements IStreamingAPI {
    * @param queue Instance of Queue to queue messages when transport unavailable.
    * @param serializer Instance which handles serializing data to be sent, and
    *                   deserializing received data.
+   * @param options Configuration to customize how ChannelsApi operates. See
+   *                the ChannelsApiOptions type for more information.
    */
   constructor(dispatcher: IDispatcher,
               transport: ITransport,
               queue: ISendQueue,
-              serializer: ISerializer) {
+              serializer: ISerializer,
+              options: ?ChannelsApiOptions={}) {
     this.dispatcher = dispatcher;
     this.transport = transport;
     this.queue = queue;
     this.serializer = serializer;
+    this.options = options;
 
     this.queue.initialize(this.transport.send, this.transport.isConnected);
     this.subscriptions = {};
@@ -402,7 +407,18 @@ class ChannelsApi implements IStreamingAPI {
         }
       });
 
-      const message = this._buildMultiplexedMessage(stream, Object.assign({}, payload, {request_id: requestId}));
+      payload = Object.assign({}, payload, {request_id: requestId});
+      if (this.options.preprocessPayload != null) {
+        // Note: this and the preprocessMessage handler below presume an object will be returned.
+        //       If you really want to return a 0, you're kinda SOL -- wrap it in an object :P
+        payload = this.options.preprocessPayload(stream, payload, requestId) || payload;
+      }
+
+      let message = this._buildMultiplexedMessage(stream, payload);
+      if (this.options.preprocessMessage != null) {
+        message = this.options.preprocessMessage(message) || message;
+      }
+
       this.send(message);
     });
   }
@@ -508,10 +524,10 @@ export default {
    * Configure a ChannelsApi client and begin connection
    *
    * @param url WebSocket URL to connect to
-   * @param wsOptions Options to pass to ReconnectingWebsocket
+   * @param options Configuration for ChannelsApi and ReconnectingWebsocket
    */
-  connect(url: string, wsOptions: Object={}): ChannelsApi {
-    const client = this.createClient(url, wsOptions);
+  connect(url: string, options: ChannelsApiOptions={}): ChannelsApi {
+    const client = this.createClient(url, options);
     client.initialize();
     return client;
   },
@@ -520,13 +536,13 @@ export default {
    * Create a configured ChannelsApi client instance, using default components
    *
    * @param url WebSocket URL to connect to
-   * @param wsOptions Options to pass to ReconnectingWebsocket
+   * @param options Configuration for ChannelsApi and ReconnectingWebsocket
    */
-  createClient(url: string, wsOptions: Object={}): ChannelsApi {
+  createClient(url: string, options: ChannelsApiOptions={}): ChannelsApi {
     const dispatcher = new FifoDispatcher();
-    const transport = new WebsocketTransport(url, wsOptions);
+    const transport = new WebsocketTransport(url, options.websocket);
     const queue = new FifoQueue();
     const serializer = new JSONSerializer();
-    return new ChannelsApi(dispatcher, transport, queue, serializer);
+    return new ChannelsApi(dispatcher, transport, queue, serializer, apiOptions);
   },
 };

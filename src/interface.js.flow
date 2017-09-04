@@ -250,11 +250,53 @@ interface IStreamingAPI {
    *
    * @param stream Name of object's type stream
    * @param payload Data to send as payload
-   * @param requestId An optional custom requestId may be passed to the server.
-   *                  If not specified, one will be generated.
+   * @param requestId Value to send as request_id to the server. If not
+   *                  specified, one will be generated.
    * @return Promise resolves/rejects when response received.
    *         On success, the promise will be resolved with response.data.
    *         On failure, the promise will be rejected with the entire API response.
    */
   request(stream: string, payload: Object, requestId?: string): Promise<Object>;
 }
+
+
+/**
+ * Callback which may mutate the payload before being sent to the server. A new
+ * object may be returned, which will be sent instead.
+ *
+ * @param stream Name of object's type stream
+ * @param payload Data which will be sent as payload. This may be mutated, as
+ *                long as no value is then returned from the callback.
+ * @param requestId Value in the payload sent as request_id to the server.
+ * @return undefined to send the same payload object as passed in; or a new
+ *         Object to be sent instead.
+ *
+ */
+export type PayloadPreprocessor = (stream: string, payload: Object, requestId: string) => ?Object;
+
+
+/**
+ * Callback which may mutate the multiplexed message (which includes the stream
+ * and payload) before being sent over the wire.
+ *
+ * @param message The message to be sent over the wire to the server.
+ * @return undefined to send the same message object as passed in (and
+ *         potentially mutated); or an Object to be sent instead.
+ */
+export type MessagePreprocessor = (message: Object) => ?Object;
+
+
+export type ChannelsApiOptions = {
+  preprocessPayload: PayloadPreprocessor,
+  preprocessMessage: MessagePreprocessor,
+
+  // ReconnectingWebsocket options
+  websocket: {
+    maxReconnectionDelay?: number;
+    minReconnectionDelay?: number;
+    reconnectionDelayGrowFactor?: number;
+    connectionTimeout?: number;
+    maxRetries?: number;
+    debug?: boolean;
+  }
+};

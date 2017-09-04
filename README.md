@@ -24,8 +24,8 @@ npm install --save @usslc/channels-api
 ## Usage
 
 ```javascript
-const channels_api = require('channels-api');
-const client = channels_api.connect('wss://example.com');
+const channelsApi = require('channels-api');
+const client = channelsApi.connect('wss://example.com');
 
 client.create('people', {name: 'Alex'}).then(person => {
   console.info('Created:', person);
@@ -65,5 +65,48 @@ personalSubscription.cancel();
 // Make a generic request to a multiplexer stream
 client.request('mystream', {key: 'value'}).then(response => {
   console.info('Got mystream response, yo:', response);
+});
+```
+
+
+## Configuration
+
+The client can be customized by passing an object as the second argument to `connect()` or `createClient()`. The available options are described below.
+
+```javascript
+const client = channelsApi.connect('wss://example.com', {
+  preprocessPayload: (stream, payload, requestId) => {
+    // Modify payload any way you see fit, before it's sent over the wire
+    // For instance, add a custom authentication token:
+    payload.token = '123';
+    // Be sure not to return anything if you modify payload
+
+    // Or, you can overwrite the payload by returning a new object:
+    return {'this': 'is my new payload'};
+  },
+
+  preprocessMessage: (message) => {
+    // The "message" is the final value which will be serialized and sent over the wire.
+    // It includes the stream and the payload.
+
+    // Modify the message any way you see fit, before its sent over the wire.
+    message.token = 'abc';
+    // Don't return anything if you modify message
+
+    // Or, you can overwrite the the message by returning a new object:
+    return {stream: 'creek', payload: 'craycrayload'};
+  },
+
+  // Options to be passed to ReconnectingWebsocket
+  // See https://github.com/pladaria/reconnecting-websocket#configure for more info
+  websocket: {
+    constructor: isGlobalWebSocket() ? WebSocket : null,
+    maxReconnectionDelay: 10000,
+    minReconnectionDelay: 1500,
+    reconnectionDelayGrowFactor: 1.3,
+    connectionTimeout: 4000,
+    maxRetries: Infinity,
+    debug: false,
+  }
 });
 ```

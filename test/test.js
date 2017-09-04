@@ -4,7 +4,6 @@ import {
   ChannelsApi,
   FifoDispatcher,
   FifoQueue,
-  JSONSerializer,
 } from '../src/channels-api';
 
 import type ITransport from '../src/interface';
@@ -115,7 +114,11 @@ describe('FifoQueue', function() {
 
 
 describe('ChannelsApi', function() {
-  let transport: DummyTransport, api;
+  let dispatcher,
+      transport: DummyTransport,
+      queue,
+      serializer,
+      api;
 
   class DummyTransport extends EventEmitter implements ITransport {
     send = sinon.spy();
@@ -146,10 +149,10 @@ describe('ChannelsApi', function() {
   }
 
   beforeEach(function() {
-    const dispatcher = new FifoDispatcher();
+    dispatcher = new FifoDispatcher();
     transport = new DummyTransport();
-    const queue = new FifoQueue();
-    const serializer = new DummySerializer();
+    queue = new FifoQueue();
+    serializer = new DummySerializer();
 
     api = new ChannelsApi(dispatcher, transport, queue, serializer);
     api.initialize();
@@ -179,6 +182,37 @@ describe('ChannelsApi', function() {
       });
 
       return promise;
+    });
+
+    it('should allow preprocessPayload to change payload before sending', function() {
+      const preprocessPayload = sinon.spy((stream: string, payload: Object, requestId: string) => {
+        payload.unique = 'muffin';
+      });
+
+      const api = new ChannelsApi(dispatcher, transport, queue, serializer, {preprocessPayload});
+      api.initialize();
+
+      api.request('test', {});
+
+      expect(preprocessPayload).to.have.been.calledOnce;
+      expect(transport.send).to.have.been.calledOnce;
+      const msg = transport.send.getCall(0).args[0];
+      expect(msg.payload).to.have.property('unique', 'muffin');
+    });
+
+    it('should allow preprocessMessage to change message before sending', function() {
+      const preprocessMessage = sinon.spy((message: Object) => {
+        message.unique = 'muffin';
+      });
+      const api = new ChannelsApi(dispatcher, transport, queue, serializer, {preprocessMessage});
+      api.initialize();
+
+      api.request('test', {});
+
+      expect(preprocessMessage).to.have.been.calledOnce;
+      expect(transport.send).to.have.been.calledOnce;
+      const msg = transport.send.getCall(0).args[0];
+      expect(msg).to.have.property('unique', 'muffin');
     });
 
     it('should queue request until connected', function () {
