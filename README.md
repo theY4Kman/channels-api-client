@@ -1,6 +1,6 @@
 # channels-api-client
 
-[![Build Status](https://travis-ci.org/usstudentloancenter/channels-api-client.svg?branch=master)](https://travis-ci.org/usstudentloancenter/channels-api-client)
+[![Build Status](https://travis-ci.org/usstudentloancenter/channels-api-client.svg?branch=master)](https://travis-ci.org/usstudentloancenter/channels-api-client) [![npm version](https://badge.fury.io/js/%40usslc%2Fchannels-api.svg)](https://badge.fury.io/js/%40usslc%2Fchannels-api)
 
 This package aims to provide a **simple**, **reliable**, and **generic** interface to consume [channels-api](https://github.com/linuxlewis/channels-api) powered WebSocket APIs.
 
