@@ -543,6 +543,6 @@ export default {
     const transport = new WebsocketTransport(url, options.websocket);
     const queue = new FifoQueue();
     const serializer = new JSONSerializer();
-    return new ChannelsApi(dispatcher, transport, queue, serializer, apiOptions);
+    return new ChannelsApi(dispatcher, transport, queue, serializer, options);
   },
 };
