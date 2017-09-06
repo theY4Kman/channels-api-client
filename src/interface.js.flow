@@ -287,16 +287,16 @@ export type MessagePreprocessor = (message: Object) => ?Object;
 
 
 export type ChannelsApiOptions = {
-  preprocessPayload: PayloadPreprocessor,
-  preprocessMessage: MessagePreprocessor,
+  preprocessPayload?: PayloadPreprocessor,
+  preprocessMessage?: MessagePreprocessor,
 
   // ReconnectingWebsocket options
-  websocket: {
-    maxReconnectionDelay?: number;
-    minReconnectionDelay?: number;
-    reconnectionDelayGrowFactor?: number;
-    connectionTimeout?: number;
-    maxRetries?: number;
-    debug?: boolean;
+  websocket?: {
+    maxReconnectionDelay?: number,
+    minReconnectionDelay?: number,
+    reconnectionDelayGrowFactor?: number,
+    connectionTimeout?: number,
+    maxRetries?: number,
+    debug?: boolean,
   }
 };
