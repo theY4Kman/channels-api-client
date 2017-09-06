@@ -1,3 +1,8 @@
+# 3.0.1 (2017/09/06)
+
+ - [bugfix] Fix unresolved reference in createClient (cheers, @mthornill — see PR #5)
+
+
 # 3.0.0 (2017/09/04)
 
  - Allow customization of message/payload before transmission (thanks once again, @mthornill — see PR #4)
